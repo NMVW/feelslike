@@ -11,9 +11,16 @@ var port = process.env.PORT || 4555;
 // app.configure(function() {
 //   app.use(express.static(__dirname + 'index.html'));
 // }); CAN ONLY USE with express-partials module
+app.use(express.static('public'));
 
 app.get('/', function(req, res) {
-  res.json('Oh, hey there. Nothing to see here, check back later!');
+  console.log('GET request to root');
+  res.render('index.html');
+});
+
+app.post('/', function(req, res) {
+  console.log('POST request to root');
+  res.send('Client trying to POST');
 });
 
 app.listen(port);
