@@ -7,7 +7,7 @@
   </head>
   <body ng-controller="MainController"> 
   
-    <form ng-submit="print(city);">
+    <form ng-submit="checkWeather(city);">
       <button>What's it like in: </button>
       <input type="text" ng-model="city" placeholder="City">
     </form>
@@ -15,6 +15,7 @@
     <h1>Hello, curious George</h1>
     <li ng-repeat="city in names">{{ city }}</li>
     <h3>San Fran feels a lot like Boise right now. It may be time to take a selfie before that changes.</h3>
+    <h4>
     <img src="http://cdn.jacksonholewy.net/images/content/14401_1363_Boise_Idaho_Mountain_Biking_md.jpg">
     <!-- <pre>{{names}}</pre> -->
     
