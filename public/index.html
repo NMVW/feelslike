@@ -1,7 +1,25 @@
+<!DOCTYPE html>
 <html ng-app="feelslike">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Feels Like</title>
+    <!-- Style it up here -->
+  </head>
+  <body ng-controller="MainController"> 
   
-<h1>Hello, Robin Kim</h1>
-<h3>San Fran feels a lot like Boise right now. It may be time to take a selfie before that changes.</h3>
-<img src="http://cdn.jacksonholewy.net/images/content/14401_1363_Boise_Idaho_Mountain_Biking_md.jpg">
-
+    <form ng-submit="print(city);">
+      <button>What's it like in: </button>
+      <input type="text" ng-model="city" placeholder="City">
+    </form>
+    
+    <h1>Hello, curious George</h1>
+    <li ng-repeat="city in names">{{ city }}</li>
+    <h3>San Fran feels a lot like Boise right now. It may be time to take a selfie before that changes.</h3>
+    <img src="http://cdn.jacksonholewy.net/images/content/14401_1363_Boise_Idaho_Mountain_Biking_md.jpg">
+    <!-- <pre>{{names}}</pre> -->
+    
+    
+    <script src="lib/angular/angular.js"></script>
+    <script src="app.js"></script>
+  </body>
 </html>
