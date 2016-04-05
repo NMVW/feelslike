@@ -14,6 +14,10 @@ angular.module('feelslike', [])
     console.log(place);
   };
   
+  
+  // getting LIVE weather data from OpenWeatherMap API
+  // http://openweathermap.org/current
+  
   return {
     print: print,
     names: cities
