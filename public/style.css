@@ -8,17 +8,28 @@ body {
   /*To hide the horizontal scroller appearing during the animation*/
   overflow: hidden;
 }
-
+button {
+  border: solid thin rgb(255,200,0);
+  background: white;
+}
+button:hover {
+  background: rgb(255,200,0);
+}
 #citySearch {
+  left: 50%;
+  z-index: 2;
   font-family: Helvetica;
   color: rgb(38,50,56);
-  align: center;
 }
 
 #cityData {
+  left: 50%;
+  z-index: 2;
   font-family: Helvetica;
-  color: rgb(38,50,56);
-  align: center;
+  color: rgb(0,100,20);
+}
+li {
+  color: rgb(0,100,30);
 }
 
 #clouds{
@@ -30,13 +41,16 @@ body {
 }
 
 img {
+  position: absolute;
   border-radius: 100px;
   border: transparent teal 5px;
-  align: center;  
+  top: 50%;
+  left: 50%;
 }
 
 /*Time to finalise the cloud shape*/
 .cloud {
+  z-index: 1;
   width: 200px; height: 60px;
   background: #fff;
   

@@ -8,6 +8,7 @@ angular.module('feelslike', [])
 
 .controller('MainController', function($scope, Weather, Cities) {
 
+  // $scope.keys = Keys.getKeys();
   $scope.cityWeather = function(city) {
     // parse data from OpenWeatherMap
     Weather.getCityWeather(city, function(data) {
@@ -122,6 +123,23 @@ angular.module('feelslike', [])
   return {
     cityFinder: cityFinder,
     sameCities: sameWeatherCities
+  };
+})
+.factory('Keys', function($http) {
+  
+  var getKeys = function() {
+    return $http({
+      method: 'GET',
+      url: '/'
+    }).then(function(keys) {
+      console.log('client received keys:');
+      console.log(keys);
+      return keys;
+    });
+  };
+  
+  return {
+    getKeys: getKeys
   };
 })
 .run();
