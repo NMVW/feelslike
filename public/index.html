@@ -7,8 +7,8 @@
   </head>
   <body ng-controller="MainController"> 
   
-    <form id="citySearch" ng-submit="getWeather(city); city = '';">
-      <button>What's it like in: </button>
+    <form id="citySearch" ng-submit="cityWeather(city); surroundingWeather(city); city = '';">
+      <button><h2>What's it like in: </h2></button>
       <input type="text" ng-model="city" placeholder="City">
     </form>
     
@@ -32,15 +32,15 @@
     <!-- That looks cool. We are done!!
     Thanks http://thecodeplayer.com/walkthrough/pure-css3-animated-clouds-background -->
     
-    <div id="cityData" ng-if="cityWeather !== undefined">
-      <h1> At the moment, {{ cityWeather.name }} feels like:</h1>
-      <li>{{ cityWeather.weather[0].description }}</li>
-      <li>{{ cityWeather.main.humidity }} % humidity</li>
-      <li ng-click="changeT(cityWeather.main.temp)">{{ cityWeather.main.temp }} C outside</li>
-      <li ng-click="changeS(cityWeather.wind.speed)">winds at {{ cityWeather.wind.speed }} kilometers per hour</li>
-      <li>{{ cityWeather.clouds.all }} % cloudiness</li>
+    <div id="cityData" ng-if="weather !== undefined">
+      <h1> At the moment, {{ weather.name }} feels like:</h1>
+      <li>{{ weather.weather[0].description }}</li>
+      <li>{{ weather.main.humidity }} % humidity</li>
+      <li>{{ weather.main.temp }} C outside</li>
+      <li>winds at {{ weather.wind.speed }} kilometers per hour</li>
+      <li>{{ weather.clouds.all }} % cloudiness</li>
       
-      <h3>{{ cityWeather.name }} feels a lot like {{ cities.join(', ') }} right now. It may be time to take a selfie before that changes.</h3>
+      <h3>{{ weather.name }} feels a lot like {{ nearbyCities.join(', ') }} right now. It may be time to take a selfie before that changes.</h3>
     </div>
     <img src="http://cdn.jacksonholewy.net/images/content/14401_1363_Boise_Idaho_Mountain_Biking_md.jpg">
     <!-- <pre>{{names}}</pre> -->
