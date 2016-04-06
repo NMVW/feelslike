@@ -1,4 +1,6 @@
-
+var wAPI_KEY = 'ee51372e62d8ae6720a7f93f3c48aed3';
+var gAPI_KEY = '6a92cac8943cd0ee4aa4519fffa2d46c';
+var placesAPI_KEY = 'AIzaSyDX3N6a5ahLsJm8wmY1kPQKkC5YEcTCrSo';
 
 var tolerance = .05;
 var cityCount = 10;
