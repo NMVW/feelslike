@@ -70,7 +70,7 @@ angular.module('feelslike', [])
     function getWeather(latLon) {
       $http({
         method: 'GET',
-        url: 'http://api.openweathermap.org/data/2.5/find?lat='+latLon[0] +'&lon='+ latLon[1]+'&cnt='+cityCount+'&APPID=' + wAPI_KEY
+        url: 'https://api.openweathermap.org/data/2.5/find?lat='+latLon[0] +'&lon='+ latLon[1]+'&cnt='+cityCount+'&APPID=' + wAPI_KEY
       }).then(function(res) {
         cb(res.data);
       }, function(err) {
@@ -84,7 +84,7 @@ angular.module('feelslike', [])
   function getCoordinates(city, cb) {
     $http({
       method: 'GET',
-      url: 'http://api.opencagedata.com/geocode/v1/json?q='+city+'&key='+gAPI_KEY
+      url: 'https://api.opencagedata.com/geocode/v1/json?q='+city+'&key='+gAPI_KEY
     }).then(function(res) {
       var lat = res.data.results[0].bounds.northeast.lat;
       var lon = res.data.results[0].bounds.northeast.lng;
@@ -99,7 +99,7 @@ angular.module('feelslike', [])
     cit = city.replace(/ /g, '+');
     $http({
         method: 'GET',
-        url: 'http://api.openweathermap.org/data/2.5/weather?q='+city+'&APPID=' + wAPI_KEY
+        url: 'https://api.openweathermap.org/data/2.5/weather?q='+city+'&APPID=' + wAPI_KEY
       }).then(function(res) {
         console.log('weather data:');
         console.log(res.data);
@@ -132,7 +132,7 @@ angular.module('feelslike', [])
     function getCoordinates(city, cb) {
       $http({
         method: 'GET',
-        url: 'http://api.opencagedata.com/geocode/v1/json?q='+city+'&key='+gAPI_KEY
+        url: 'https://api.opencagedata.com/geocode/v1/json?q='+city+'&key='+gAPI_KEY
       }).then(function(res) {
         // console.log(res);
         cb(res);
