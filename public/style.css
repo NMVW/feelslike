@@ -8,22 +8,38 @@ body {
   /*To hide the horizontal scroller appearing during the animation*/
   overflow: hidden;
 }
-button {
-  border: solid thin rgb(255,200,0);
-  background: white;
+input {
+  padding: 5px;
+  font-family: Helvetica;
+  color: rgb(0,100,20);
+  border-radius: 10px;
 }
-button:hover {
+button {
+  border-radius: 60px;
+  padding: 10px;
+  border: solid thin white;
   background: rgb(255,200,0);
 }
+h2 {
+  color: white;
+}
+h2:hover {
+  color: rgb(255,200,0);
+}
+button:hover {
+  background: white;
+}
 #citySearch {
-  left: 50%;
+  position: absolute;
+  left: 25%;
   z-index: 2;
   font-family: Helvetica;
   color: rgb(38,50,56);
 }
 
 #cityData {
-  left: 50%;
+  position: relative;
+  left: 10%;
   z-index: 2;
   font-family: Helvetica;
   color: rgb(0,100,20);
@@ -43,7 +59,7 @@ li {
 img {
   position: absolute;
   border-radius: 100px;
-  border: transparent teal 5px;
+  border: solid white 10px;
   top: 50%;
   left: 50%;
 }

@@ -1,6 +1,5 @@
-// var API_KEY = require('./key.js');
-var wAPI_KEY = process.env.wAPI_KEY;
-var gAPI_KEY = process.env.gAPI_KEY;
+
+
 var tolerance = .05;
 var cityCount = 10;
 
@@ -11,6 +10,11 @@ angular.module('feelslike', [])
   // $scope.keys = Keys.getKeys();
   $scope.cityWeather = function(city) {
     // parse data from OpenWeatherMap
+    // $scope.cityPic = ???
+    Cities.picFinder(city, function(imgURL) {
+      console.log(imgURL);
+    });// extract pics from city + nearby
+    
     Weather.getCityWeather(city, function(data) {
       data.main.temp = Math.round(data.main.temp - 273.15);
       data.wind.speed = Math.round(data.wind.speed * 3.6);
@@ -25,13 +29,13 @@ angular.module('feelslike', [])
       // parse data from OpenWeatherMap
       $scope.nearbyCities = citiesData.list
         .filter(function(cityData) {
-          // console.log(cityData);
-          // console.log($scope.weather);
+          
           // filter out too different weathers
           var dH = Math.abs(cityData.main.humidity - $scope.weather.main.humidity);
           var dT = Math.abs(cityData.main.temp - 273.15 - $scope.weather.main.temp);
           console.log('Difference in humidity =' +dH+' for '+cityData.name);
           console.log('Differenc in temp = '+dT+' for ' + cityData.name);
+          
           return (dH/$scope.weather.main.humidity <= tolerance) && (dT/$scope.weather.main.temp <= tolerance);
         }).map(function(matched) {
           // list of weather-matched city names
@@ -43,6 +47,7 @@ angular.module('feelslike', [])
       console.log($scope.nearbyCities);
     });
   };
+  
 
   $scope.cityUtils = Cities;
     
@@ -56,9 +61,7 @@ angular.module('feelslike', [])
     // need to get coordinates from input place to find
     // neighboring cities' weather data
     getCoordinates(place, function(GEOdata) {
-      var lat = GEOdata.data.results[0].bounds.northeast.lat;
-      var lon = GEOdata.data.results[0].bounds.northeast.lng;
-      getWeather([lat,lon]);
+      getWeather(GEOdata);
     });
     
     // get the weather data for cities around coordinates
@@ -81,8 +84,9 @@ angular.module('feelslike', [])
       method: 'GET',
       url: 'http://api.opencagedata.com/geocode/v1/json?q='+city+'&key='+gAPI_KEY
     }).then(function(res) {
-      // console.log(res);
-      cb(res);
+      var lat = res.data.results[0].bounds.northeast.lat;
+      var lon = res.data.results[0].bounds.northeast.lng;
+      cb([lat,lon]);
     }, function(err) {
       console.log(err);
     });
@@ -109,37 +113,64 @@ angular.module('feelslike', [])
   };
 })
 
-.factory('Cities', function() {
+.factory('Cities', function($http) {
   
-  var cityFinder = function(cityData) {
-    // look in cityWeather data an
+  var picFinder = function(city, cb) {
     
-  
-    return citiesOfSameWeather;
+    getCoordinates(city, function(latLon) {
+      getRef(latLon, function(reference) {
+        getPic(reference, function(html) {
+          console.log(html);
+          cb(html);
+        });
+      });
+      
+    });
+    // look in cityWeather data an
+    function getCoordinates(city, cb) {
+      $http({
+        method: 'GET',
+        url: 'http://api.opencagedata.com/geocode/v1/json?q='+city+'&key='+gAPI_KEY
+      }).then(function(res) {
+        // console.log(res);
+        cb(res);
+      }, function(err) {
+        console.log(err);
+      });
+    }
+    
+    function getRef(latLon, cb) {
+      $http({
+        method: 'GET',
+        url: 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location='+latLon[0]+','+latLon[1]+'&radius=1500&key='+placesAPI_KEY
+      }).then(function(data) {
+        var reference = data.results[1].photos[0].photo_reference;
+        cb(reference);
+      });   
+    }
+    
+    function getPic(ref, cb) {
+      $http({
+        method: 'GET',
+        url: 'https://maps.googleapis.com/maps/api/place/photo?photo_reference'+ref+'&maxheight=100&key='+placesAPI_KEY
+      }).then(function(html) {
+        //extract img from url and send in cb
+        console.log('here is random pic object:');
+        console.log(typeof html);
+        console.log(html);
+        cb(html);
+        // take the image url and append it to body
+        
+      });
+    }
   };
    
   var sameWeatherCities = ['San Diego','San Francisco', 'Orlando','St. Paul'];
   
   return {
-    cityFinder: cityFinder,
+    picFinder: picFinder,
     sameCities: sameWeatherCities
-  };
-})
-.factory('Keys', function($http) {
-  
-  var getKeys = function() {
-    return $http({
-      method: 'GET',
-      url: '/'
-    }).then(function(keys) {
-      console.log('client received keys:');
-      console.log(keys);
-      return keys;
-    });
-  };
-  
-  return {
-    getKeys: getKeys
+    
   };
 })
 .run();
