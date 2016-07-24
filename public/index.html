@@ -5,6 +5,10 @@
     <meta charset="utf-8"/>
     <title>Feels Like</title>
     <link rel="stylesheet" type="text/css" href="style.css" />
+    <script src="lib/angular/angular.min.js"></script>
+    <script src="lib/angular-ui-router/release/angular-ui-router.min.js"></script>
+    
+    <script src="app.js"></script>
   </head>
   <body ng-controller="MainController"> 
   
@@ -20,7 +24,7 @@
       <div class="cloud x1"></div>
       <!-- Time for multiple clouds to dance around -->
       <div class="cloud x2"></div>
-      <form id="citySearch" ng-submit="cityWeather(city); surroundingWeather(city); city = '';">
+      <form id="citySearch" ng-submit="cityWeather(city); city = '';">
         <button><h2>What's it like in: </h2></button>
         <input type="text" ng-model="city" placeholder="City">
       </form>
@@ -32,6 +36,17 @@
     
     <!-- That looks cool. We are done!!
     Thanks http://thecodeplayer.com/walkthrough/pure-css3-animated-clouds-background -->
+   
+    <div>
+      <div ui-view></div>
+      <!-- Navigation will auto-generate the href tags based off of the "state" and transition the view -->
+        
+        <!-- partials/state1.html -->
+        <a ui-sref="state1">State 1</a>
+        <a ui-sref="state2">State 2</a>
+    </div>
+      
+    
     
     <div id="cityData" ng-if="weather !== undefined">
       <h1> At the moment, {{ weather.name }} feels like:</h1>
@@ -48,7 +63,5 @@
     <!-- <pre>{{names}}</pre> -->
     
     
-    <script src="lib/angular/angular.js"></script>
-    <script src="app.js"></script>
   </body>
 </html>

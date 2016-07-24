@@ -1,19 +1,30 @@
 var express = require('express');
-// var partials = require('express-partials');
+var bodyParser = require('body-parser');
 
-// var http = require('http');
-// var request = require('request');
+// MONGO (mongoose)
+var db = require('./db/mongoController');
+
+// MYSQL (sequelize)
 
 var app = express();
 
 var port = process.env.PORT || 4555;
 
-// var wAPI_KEY = process.env.wAPI_KEY;
-// var gAPI_KEY = process.env.gAPI_KEY;
-// app.configure(function() {
-//   app.use(express.static(__dirname + 'index.html'));
-// }); CAN ONLY USE with express-partials module
 app.use(express.static('public'));
+app.use(bodyParser.json()); // parses the incoming data to JSON
+
+app.get('/weather', function(req,res) {
+  // res.send('this is GET weather');
+  db.get(function(data) {
+    // res.send(data);
+    res.send(data);
+  });
+});
+
+app.post('/weather', function(req,res) {
+  res.send('this is POST weather');
+  db.post();
+});
 
 // app.get('*', function(req, res) {
 //   console.log('retrieving API keys');
@@ -26,15 +37,3 @@ app.use(express.static('public'));
 // });
 
 app.listen(port);
-
-// var port = process.env.PORT || 4555;
-
-// http.createServer(function(req, res) {
-  
-//   res.end(function() {
-//     console.log('message received');
-//     console.log('Server now listening on port ' + port);
-    
-//   });
-  
-// }).listen(4555);

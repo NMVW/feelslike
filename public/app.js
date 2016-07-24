@@ -3,19 +3,49 @@ var gAPI_KEY = '6a92cac8943cd0ee4aa4519fffa2d46c';
 var placesAPI_KEY = 'AIzaSyDX3N6a5ahLsJm8wmY1kPQKkC5YEcTCrSo';
 
 var tolerance = .05;
-var cityCount = 10;
+var cityCount = 100;
 
-angular.module('feelslike', [])
+angular.module('feelslike', ['ui.router'])
+
+.config(function($stateProvider, $urlRouterProvider) {
+  
+  // For any unmatched url, redirect to /index.html
+  $urlRouterProvider.otherwise("/index.html");
+  
+  // Now set up the states
+  $stateProvider
+    .state('state1', {
+      url: "/state1",
+      templateUrl: "partials/state1.html"
+    })
+    .state('state1.list', {
+      url: "/list",
+      templateUrl: "partials/state1.list.html",
+      controller: function($scope) {
+        $scope.items = ["A","List","Of","Items"];
+      }
+    })
+    .state('state2', {
+      url: "/list",
+      templateUrl: "partials/state2.html"
+    })
+    .state('state2.list', {
+      url: "/list",
+      templateUrl: "partials/state2.list.html",
+      controller: function($scope) {
+        $scope.things = ["A","Set","Of","Things"];
+      }
+    });
+})
 
 .controller('MainController', function($scope, Weather, Cities) {
 
-  // $scope.keys = Keys.getKeys();
+  // parse data from OpenWeatherMap
   $scope.cityWeather = function(city) {
-    // parse data from OpenWeatherMap
-    // $scope.cityPic = ???
-    Cities.picFinder(city, function(imgURL) {
-      console.log(imgURL);
-    });// extract pics from city + nearby
+    
+    // Cities.picFinder(city, function(imgURL) {
+    //   console.log(imgURL);
+    // });// extract pics from city + nearby
     
     Weather.getCityWeather(city, function(data) {
       data.main.temp = Math.round(data.main.temp - 273.15);
@@ -24,31 +54,31 @@ angular.module('feelslike', [])
     });
   };
   
-  $scope.surroundingWeather = function(city) {
+  // $scope.surroundingWeather = function(city) {
     
-    Weather.getCities(city, function(citiesData) {
+  //   Weather.getCities(city, function(citiesData) {
       
-      // parse data from OpenWeatherMap
-      $scope.nearbyCities = citiesData.list
-        .filter(function(cityData) {
+  //     // parse data from OpenWeatherMap
+  //     $scope.nearbyCities = citiesData.list
+  //       .filter(function(cityData) {
           
-          // filter out too different weathers
-          var dH = Math.abs(cityData.main.humidity - $scope.weather.main.humidity);
-          var dT = Math.abs(cityData.main.temp - 273.15 - $scope.weather.main.temp);
-          console.log('Difference in humidity =' +dH+' for '+cityData.name);
-          console.log('Differenc in temp = '+dT+' for ' + cityData.name);
+  //         // filter out too different weathers
+  //         var dH = Math.abs(cityData.main.humidity - $scope.weather.main.humidity);
+  //         var dT = Math.abs(cityData.main.temp - 273.15 - $scope.weather.main.temp);
+  //         console.log('Difference in humidity =' +dH+' for '+cityData.name);
+  //         console.log('Differenc in temp = '+dT+' for ' + cityData.name);
           
-          return (dH/$scope.weather.main.humidity <= tolerance) && (dT/$scope.weather.main.temp <= tolerance);
-        }).map(function(matched) {
-          // list of weather-matched city names
-          return matched.name;
-        });
+  //         return (dH/$scope.weather.main.humidity <= tolerance) && (dT/$scope.weather.main.temp <= tolerance);
+  //       }).map(function(matched) {
+  //         // list of weather-matched city names
+  //         return matched.name;
+  //       });
     
-      console.log('$scope cities:');
-      // console.log($scope);
-      console.log($scope.nearbyCities);
-    });
-  };
+  //     console.log('$scope cities:');
+  //     // console.log($scope);
+  //     console.log($scope.nearbyCities);
+  //   });
+  // };
   
 
   $scope.cityUtils = Cities;
@@ -99,11 +129,11 @@ angular.module('feelslike', [])
     cit = city.replace(/ /g, '+');
     $http({
         method: 'GET',
-        url: 'http://api.openweathermap.org/data/2.5/weather?q='+city+'&APPID=' + wAPI_KEY
+        url: '/weather', //'http://api.openweathermap.org/data/2.5/weather?q='+city+'&APPID=' + wAPI_KEY
       }).then(function(res) {
         console.log('weather data:');
         console.log(res.data);
-        cb(res.data);
+        cb(res.data);s
       }, function(err) {
         console.log(err);
       }); 
