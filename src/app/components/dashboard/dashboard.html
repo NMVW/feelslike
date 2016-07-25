@@ -1,0 +1,14 @@
+<search-panel />
+<div id="cityData" ng-if="dashboard.weather !== undefined">
+  <h1> At the moment, {{ dashboard.weather.name }} feels like:</h1>
+  <li>{{ dashboard.weather.weather[0].description }}</li>
+  <li>{{ dashboard.weather.main.humidity }} % humidity</li>
+  <li>{{ dashboard.weather.main.temp }} C outside</li>
+  <li>winds at {{ dashboard.weather.wind.speed }} kilometers per hour</li>
+  <li>{{ dashboard.weather.clouds.all }} % cloudiness</li>
+  
+  <h3>{{ dashboard.weather.name }} feels a lot like {{ nearbyCities.join(', ') }} right now.</h3>
+  <h3> Take a selfie before that changes!</h3>
+</div>
+<img src="http://cdn.jacksonholewy.net/images/content/14401_1363_Boise_Idaho_Mountain_Biking_md.jpg">
+    <!-- <pre>{{names}}</pre> -->

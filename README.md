@@ -35,6 +35,7 @@ Once the project moves into development, the press release can be used as a touc
   - Sky Gump
 
 ## How to Get Started ##
+  > `npm start` to run locally
   > Go to feelslike.com and type in a place. Be amazed at who in the world is sharing the same feeling of weather.
 
 ## Customer Quote ##
